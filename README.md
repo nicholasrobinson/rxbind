@@ -18,11 +18,11 @@ This is achieved by a series of pulses on power-up, as stated in the
 The interface to the remote receivers is a 3-wire bus. Pins are as
 noted below:-
 
-| PIN | Colour | Function |
-| --- | ------ | -------- |
-| 1 | Orange | 3.3VDC +/-5%, 20mA max |
-| 2 | Black | GND |
-| 3 | Gray | DATA |
+| Pin | Colour | Function | GPIO Pin
+| --- | ------ | -------- | -------- |
+| 1 | Orange | 3.3VDC +/-5%, 20mA max | 3 |
+| 2 | Black | GND | GND |
+| 3 | Gray | DATA | 2 |
 
 To achieve this on the Pi, where we don't know when the unit powers on
 and we only have a short period of time to start the binding sequence
@@ -33,4 +33,48 @@ thing initialize but within the 200ms window. We then issue 9 pulses which
 is the required number for DSMX mode (11ms internal).
 
 # Usage
+
+Clone and build the repo using the following command:
+```
+$ git clone https://github.com/kalopa/rxbind.git
+$ cd rxbind
+$ make
+```
+
+This should pull down the code and compile it. If there are errors,
+these should be addressed before proceeding.
+
+Ideally, use a breadboard to wire the SPM9645 to the Pi.
+
+Wire the SPM9645 black wire to GND on the Raspberry Pi.
+
+Wire the gray (DATA) wire to GPIO Pin 2.
+
+In order to detect when the unit powers up, the power pin (the
+orange wire) needs to be wired to the 3V3 output on the Pi and also
+onto GPIO pin 3. To begin with, just wire it to the GPIO pin with
+another jumper wire to be connected to 3V3.
+
+Don't connect it to 3V3 just yet.
+
 `make run` should do everything you need.
+
+You should see the following:
+
+```
+$ make run
+Waiting for device power...
+```
+
+The code should stop at this point. If it doesn't, check the 3V3 sense (GPIO pin 3).
+
+If it has stopped waiting for device power, wire GPIO pin 3 and the orange wire to 3V3 on the Pi.
+
+The code should complete and the output should look like this:
+
+```
+$ make run
+Waiting for device power...
+Begin!
+Receiver in BIND mode.
+```
