@@ -4,7 +4,7 @@ Raspberry Pi code to put a Spektrum DSMX Remote Receiver SPM9645 into
 bind mode.
 
 This is achieved by a series of pulses on power-up, as stated in the
-[Spectrum Guide]https://www.spektrumrc.com/ProdInfo/Files/Remote%20Receiver%20Interfacing%20Rev%20A.pdf
+[Spectrum Guide](https://www.spektrumrc.com/ProdInfo/Files/Remote%20Receiver%20Interfacing%20Rev%20A.pdf)
 
 > To put a receiver into bind mode, within 200ms of power application
 > the host device needs to issue a series of falling pulses. The number
@@ -19,6 +19,7 @@ The interface to the remote receivers is a 3-wire bus. Pins are as
 noted below:-
 
 | PIN | Colour | Function |
+| --- | ------ | -------- |
 | 1 | Orange | 3.3VDC +/-5%, 20mA max |
 | 2 | Black | GND |
 | 3 | Gray | DATA |
@@ -31,5 +32,5 @@ unit is powered up. Then delay for around 70ms, long enough for the
 thing initialize but within the 200ms window. We then issue 9 pulses which
 is the required number for DSMX mode (11ms internal).
 
-Â# Usage
+# Usage
 `make run` should do everything you need.
