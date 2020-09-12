@@ -59,15 +59,14 @@ main(int argc, char *argv[])
 		fprintf(stderr, "?Error - cannot initialize the GPIO\n");
 		exit(1);
 	}
-	gpioSetMode(2, PI_OUTPUT);
-	gpioSetMode(3, PI_INPUT);
+	gpioSetMode(15, PI_OUTPUT);
+	gpioSetMode(4, PI_OUTPUT);
 	/*
 	 * Give the operator a chance to power up the device.
 	 */
 	printf("Waiting for device power...\n");
-	gpioWrite(2, 1);
-	while (gpioRead(3) == 0)
-		;
+	gpioWrite(4, 1);
+	gpioWrite(15, 1);
 	/*
 	 * Wait for it to settle and toggle the bit.
 	 */
@@ -75,12 +74,17 @@ main(int argc, char *argv[])
 	printf("Begin!\n");
 	for (i = 0; i < NPULSES; i++) {
 		delay(50);
-		gpioWrite(2, 0);
+		gpioWrite(15, 0);
 		delay(50);
-		gpioWrite(2, 1);
+		gpioWrite(15, 1);
 	}
 	printf("Receiver in BIND mode.\n");
-	gpioSetMode(2, PI_INPUT);
+	/*
+	 * Wait for binding.
+	 */
+	delay(10000000);
+	gpioSetMode(15, PI_INPUT);
+	gpioSetMode(4, PI_INPUT);
 	gpioTerminate();
 	exit(0);
 }
